@@ -21,12 +21,11 @@ app.on('ready', function () {
     }));
     console.log(2.2);
 
-
     const { ipcMain } = require('electron')
-
     ipcMain.on('asynchronous-message', (event, arg) => {
         console.log(arg) // prints "ping"
         event.sender.send('asynchronous-reply', 'pong')
+        event.returnValue = 'pong'
     })
 
     console.log("1");
