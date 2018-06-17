@@ -79,11 +79,22 @@
 
 <script>
     const electron = require('electron');
-    const { ipcRenderer } = electron;
 
-    ipcRenderer.on('newImg', function (e, item) {
-        console.log("2");
+
+    // In renderer process (web page).
+    const { ipcRenderer } = require('electron')
+    console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+
+    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+        console.log(arg) // prints "pong"
     })
+    ipcRenderer.send('asynchronous-message', 'ping')
+
+
+
+
+
+
 
     var curImg = document.getElementById("image").src;
     function changeImages() {
