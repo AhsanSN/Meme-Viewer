@@ -72,6 +72,7 @@
     </ul>
 
     <img id="image" src="../images/m1.png"/>
+    <p id='text'>Sample1</p>
 
 </body>
 </html>
@@ -80,15 +81,19 @@
 <script>
     const electron = require('electron');
 
+    console.log("ds");
 
     // In renderer process (web page).
-    const { ipcRenderer } = require('electron')
+    const { ipcRenderer } = require('electron');
     console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 
     ipcRenderer.on('asynchronous-reply', (event, arg) => {
         console.log(arg) // prints "pong"
+        document.getElementById('text').innerHTML = arg;
+
     })
     ipcRenderer.send('asynchronous-message', 'ping')
+
 
 
 
