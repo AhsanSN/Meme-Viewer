@@ -29,10 +29,6 @@ app.on('ready', function () {
         event.sender.send('asynchronous-reply', 'pong')
     })
 
-    ipcMain.on('synchronous-message', (event, arg) => {
-        console.log(arg) // prints "ping"
-        event.returnValue = 'pong'
-    })
     console.log("1");
 
 });
