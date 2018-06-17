@@ -78,6 +78,13 @@
 
 
 <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    ipcRenderer.on('newImg', function (e, item) {
+        console.log("2");
+    })
+
     var curImg = document.getElementById("image").src;
     function changeImages() {
         //curImg = 
