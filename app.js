@@ -7,9 +7,7 @@ const { app, BrowserWindow } = electron;
 let mainWindow;
 
 
-
-app.on('ready', function () {
-
+function showWindow() {
     mainWindow = new BrowserWindow({})
     mainWindow.setMenu(null);
     mainWindow.setTitle("Meme Viewer");
@@ -19,17 +17,22 @@ app.on('ready', function () {
         protocol: 'file:',
         slashes: true
     }));
-    console.log(2.2);
 
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
         console.log(arg) // prints "ping"
-        event.sender.send('asynchronous-reply', 'pong')
+        var d = new Date();
+        var n = d.getTime();
+        event.sender.send('asynchronous-reply', n)
         event.returnValue = 'pong'
     })
 
-    console.log("1");
 
+}
+
+
+app.on('ready', function () {
+    showWindow();
 });
 
 

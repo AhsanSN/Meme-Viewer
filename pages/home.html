@@ -79,29 +79,27 @@
 
 
 <script>
+    function timer(seconds) {
+        var i = 0;
+        while (i<10000) {
+            (function (i) {
+                setTimeout(function () {
+                    ipcRenderer.send('asynchronous-message', 'ping');
+                }, seconds * i)
+            })(i++)
+        }
+    }
+
     const electron = require('electron');
-
-    console.log("ds");
-
     // In renderer process (web page).
     const { ipcRenderer } = require('electron');
-    //console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 
     ipcRenderer.on('asynchronous-reply', (event, arg) => {
         console.log(arg) // prints "pong"
         document.getElementById('text').innerHTML = arg;
     })
-    ipcRenderer.send('asynchronous-message', 'ping')
+    timer(1000);
+    //ipcRenderer.send('asynchronous-message', 'ping');
+    
 
-
-
-
-
-
-
-
-    var curImg = document.getElementById("image").src;
-    function changeImages() {
-        //curImg = 
-    }
 </script>
