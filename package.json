@@ -1,10 +1,10 @@
 {
-  "name": "electron-quick-start",
+  "name": "Meme Viewer",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A meme viewing desktop app",
   "main": "app.js",
   "scripts": {
-    "start": "electron ."
+    "start": "Meme Viewer."
   },
   "keywords": [
     "Electron",
@@ -13,7 +13,7 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "Syed Ahsan Ahmed",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^2.0.0"
