@@ -1,2 +1,2 @@
-# Shopping-cart-desktop-app
-A small shopping cart desktop app created using Electron and ofcourse NodeJs, 
+# MEME-Viewer-desktop-app
+A small meme viewing desktop app created using Electron and ofcourse NodeJs, 
