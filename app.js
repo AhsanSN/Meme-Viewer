@@ -1,3 +1,19 @@
+const electron = require('electron')
+
+const { app, BrowserWindow } = require('electron')
+
+function createWindow() {
+    // Create the browser window.
+    win = new BrowserWindow({ width: 800, height: 600 })
+
+    // and load the index.html of the app.
+    win.loadFile('index.html')
+}
+
+app.on('ready', createWindow)
+
+
+
 /**
 
 const electron = require('electron')
@@ -20,7 +36,7 @@ app.on('ready', function () {
 });
 
 
-**/
+
 
 
 const { browserwindow } = require('electron')
@@ -29,7 +45,7 @@ let win = new browserwindow({ width: 400, height: 320 })
 win.on('close', () => { win = null })
 win.loadurl(modalpath)
 win.show()
-/**
+
 const newwindowbtn = document.getelementbyid('new-window')
 
 newWindowBtn.addEventListener('click', (event) => {
