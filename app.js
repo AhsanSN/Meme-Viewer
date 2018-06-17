@@ -8,7 +8,9 @@ let mainWindow;
 
 
 app.on('ready', function () {
-	mainWindow = new BrowserWindow({})
+    mainWindow = new BrowserWindow({})
+    mainWindow.setMenu(null);
+    mainWindow.setTitle("Meme Viewer");
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, '/pages/home.html'),
 		protocol: 'file:',
