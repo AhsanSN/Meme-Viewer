@@ -7,15 +7,21 @@ const {app, BrowserWindow} = electron;
 let mainWindow;
 
 
-app.on('ready', function () {
+function launchingMainWindow() {
     mainWindow = new BrowserWindow({})
     mainWindow.setMenu(null);
     mainWindow.setTitle("Meme Viewer");
-	mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, '/pages/home.html'),
-		protocol: 'file:',
-		slashes: true
-	}));
+    mainWindow.setSize(800, 600, 1);
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, '/pages/home.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+app.on('ready', function () {
+    launchingMainWindow();
+    console.log("1");
 });
 
 
