@@ -1,10 +1,10 @@
 {
-  "name": "Meme Viewer",
+  "name": "shopping-cart-desktop-app",
   "version": "1.0.0",
   "description": "A meme viewing desktop app",
   "main": "app.js",
   "scripts": {
-    "start": "Meme Viewer."
+    "start": "Electron  ."
   },
   "keywords": [
     "Electron",
