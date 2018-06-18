@@ -1,15 +1,14 @@
 const electron = require('electron')
 const url = require('url')
 const path = require('path')
-var fs = require('fs');
+const fs = require('fs');
 
 
 const { app, BrowserWindow } = electron;
 
 let mainWindow;
 
-function writeToFile() {
-    var data = "New File Contents";
+function writeToFile(data="no text provided") {
 
     fs.appendFile('imagesFile.txt', data, function (err, data) {
         if (err) console.log(err);
@@ -18,9 +17,21 @@ function writeToFile() {
 }
 
 function readFile() {
-    fs.readFile('imagesFile.txt', function (err, buf) {
-        console.log(buf.toString());
+    var arrayImg;
+    fs.readFile('imagesFile.txt', function (err, data) {
+        if (err) throw err;
+        arrayImg = data.toString().split("\n");
+      
+        console.log(arrayImg)
+        return arrayImg;
     });
+    return arrayImg;
+    /**
+     * for (i in array) {
+            console.log("t1"+array[i]);
+        }
+
+     * **/
 }
 
 function ipc() {
@@ -62,14 +73,17 @@ function showWindow() {
         protocol: 'file:',
         slashes: true
     }));
-    //ipc();
-    writeToFile();
-    readFile();
+    //writeToFile();
 }
 
 
 app.on('ready', function () {
     showWindow();
+    //ipc();
+    var imgArray = readFile();
+    console.log(imgArray);
+
+
 });
 
 
