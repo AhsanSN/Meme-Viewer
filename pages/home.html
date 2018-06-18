@@ -6,8 +6,8 @@
             margin:0px;
         }
         img{
-            height: 486px;
-            width: 700px;
+            height: 511.3px;
+            width: 784px;
             align-content: center;
         }
         ul {
@@ -71,8 +71,9 @@
         <li><a href="#news">News</a></li>
     </ul>
 
-    <!--<img id="image" src="../images/m1.png"/>-->
-    <p id='text'>Sample1</p>
+    <img id="image" src="../images/m1.png" />
+    <!-- <p id='text'>Sample1</p> -->
+
 
 </body>
 </html>
@@ -96,7 +97,7 @@
 
     ipcRenderer.on('asynchronous-reply', (event, arg) => {
         console.log(arg) // prints "pong"
-        document.getElementById('text').innerHTML = arg;
+        document.getElementById('image').src = arg;
     })
     timer(1000);
     
