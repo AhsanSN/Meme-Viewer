@@ -6,6 +6,59 @@ const fs = require('fs');
 const { app, BrowserWindow } = electron;
 let mainWindow;
 
+function downloadImg(url ="https://www.google.com/images/srpr/logo3w.png") {
+    const request = require('request');
+
+    var download = function (uri, filename, callback) {
+        request.head(uri, function (err, res, body) {
+            console.log('content-type:', res.headers['content-type']);
+            console.log('content-length:', res.headers['content-length']);
+
+            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+        });
+    };
+
+    download(url, './images/google.png', function () {
+        console.log('done');
+    });
+}
+
+function googleApi() {
+    const { google } = require('googleapis');
+    const customsearch = google.customsearch('v1');
+
+    // Ex: node customsearch.js
+    //      "Google Node.js"
+    //      "API KEY"
+    //      "CUSTOM ENGINE ID"
+
+    async function runSample(options) {
+        console.log(options);
+        const res = await customsearch.cse.list({
+            cx: options.cx,
+            q: options.q,
+            auth: options.apiKey
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    if (module === require.main) {
+        // You can get a custom search engine id at
+        // https://www.google.com/cse/create/new
+        const options = {
+            q: process.argv[2],
+            apiKey: process.argv[3],
+            cx: process.argv[4]
+        };
+        runSample(options).catch(console.error);
+    }
+
+    module.exports = {
+        runSample
+    };
+}
+
 function writeToFile(data = "no text provided") {
     data = data + '\n';
     fs.appendFile('imagesFile.txt', data, function (err, data) {
@@ -67,4 +120,5 @@ app.on('ready', function () {
             ipc(data);
         }
     });
+    downloadImg();
 });
