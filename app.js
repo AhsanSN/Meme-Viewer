@@ -8,8 +8,19 @@ const { app, BrowserWindow } = electron;
 
 let mainWindow;
 
-function readFile() {
+function writeToFile() {
+    var data = "New File Contents";
 
+    fs.appendFile('imagesFile.txt', data, function (err, data) {
+        if (err) console.log(err);
+        console.log("Successfully Written to File.");
+    });
+}
+
+function readFile() {
+    fs.readFile('imagesFile.txt', function (err, buf) {
+        console.log(buf.toString());
+    });
 }
 
 function ipc() {
@@ -51,7 +62,9 @@ function showWindow() {
         protocol: 'file:',
         slashes: true
     }));
-    ipc();
+    //ipc();
+    writeToFile();
+    readFile();
 }
 
 
