@@ -67,6 +67,7 @@
 <body>
 
     <ul>
+        <li onclick="stopSS();"><a id="pause" href="#">Pause</a></li>
         <li><a href="about.html">About</a></li>
     </ul>
     <img id="image" src="../images/m1.png" />
@@ -76,12 +77,26 @@
 
 
 <script>
+    slideSSbool = true;
+    function stopSS() {
+        if (slideSSbool == true) {
+            slideSSbool = false;
+            document.getElementById("pause").innerHTML = "Resume";
+        }
+        else {
+            slideSSbool = true;
+            document.getElementById("pause").innerHTML = "Pause";
+        }
+    }
+
     function timer(seconds) {
         var i = 0;
-        while (i<10000) {
+        while (i<100000) {
             (function (i) {
                 setTimeout(function () {
-                    ipcRenderer.send('asynchronous-message', 'ping');
+                    if (slideSSbool == true) {
+                        ipcRenderer.send('asynchronous-message', 'ping');
+                    }
                 }, seconds * i)
             })(i++)
         }
