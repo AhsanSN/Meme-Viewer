@@ -2,14 +2,16 @@
 <html>
 <head>
     <style>
-        body{
-            margin:0px;
+        body {
+            margin: 0px;
         }
-        img{
+
+        img {
             height: 511.3px;
             width: 784px;
             align-content: center;
         }
+
         ul {
             list-style-type: none;
             margin: 0;
@@ -67,33 +69,13 @@
 <body>
 
     <ul>
-        <li><a href="about.html">About</a></li>
+        <li><a href="home.html">Home</a></li>
     </ul>
-    <img id="image" src="../images/m1.png" />
+    <h1>Meme Viewer</h1>
+    <h2>Developed by: Syed Ahsan Ahmed</h2>
+    <h3>github.com/ahsansn</h3>
+
+    <p>If you liked it, dont forget to follow me on github</p>
 
 </body>
 </html>
-
-
-<script>
-    function timer(seconds) {
-        var i = 0;
-        while (i<10000) {
-            (function (i) {
-                setTimeout(function () {
-                    ipcRenderer.send('asynchronous-message', 'ping');
-                }, seconds * i)
-            })(i++)
-        }
-    }
-
-    const electron = require('electron');
-    const { ipcRenderer } = require('electron');
-
-    ipcRenderer.on('asynchronous-reply', (event, arg) => {
-        console.log(arg) // prints "pong"
-        document.getElementById('image').src = arg;
-    })
-    timer(2000);
-    
-</script>
