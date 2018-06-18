@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
+var nImages;
 
 function downloadImg(url ="https://www.google.com/images/srpr/logo3w.png") {
     const request = require('request');
@@ -17,9 +18,11 @@ function downloadImg(url ="https://www.google.com/images/srpr/logo3w.png") {
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
     };
-
-    download(url, './images/google.png', function () {
+    nImages = nImages + 1;
+    var imgName = `../images/m (${nImages}).png`;
+    download(url, imgName, function () {
         console.log('done');
+        writeToFile(imgName);
     });
 }
 
@@ -110,6 +113,8 @@ function showWindow() {
     //writeToFile();
 }
 
+
+//main
 app.on('ready', function () {
     showWindow();
     //getting images array
@@ -117,6 +122,7 @@ app.on('ready', function () {
         if (err) {
             console.log("ERROR : ", err);
         } else {
+            nImages = data.length;
             ipc(data);
         }
     });

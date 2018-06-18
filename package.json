@@ -19,6 +19,7 @@
     "electron": "^2.0.0"
   },
   "dependencies": {
-    "google-images": "^2.1.0"
+    "google-images": "^2.1.0",
+    "googleapis-plus": "^0.8.3"
   }
 }
