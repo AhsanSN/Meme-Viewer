@@ -123,8 +123,8 @@ app.on('ready', function () {
             console.log("ERROR : ", err);
         } else {
             nImages = data.length;
+            downloadImg();
             ipc(data);
         }
     });
-    downloadImg();
 });
