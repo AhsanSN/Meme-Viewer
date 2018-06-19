@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "google-images": "^2.1.0",
-    "googleapis-plus": "^0.8.3"
+    "googleapis": "^1.0.0",
+    "sqlite3": "^3.1.8"
   }
 }
