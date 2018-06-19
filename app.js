@@ -2,13 +2,14 @@ const electron = require('electron')
 const url = require('url')
 const path = require('path')
 const fs = require('fs');
-const a = require('googleapis')
+const { google } = require('googleapis');
+const customsearch = google.customsearch('v1');
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
 var nImages;
 
-function downloadImg(url ="https://www.google.com/images/srpr/logo3w.png") {
+function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     const request = require('request');
 
     var download = function (uri, filename, callback) {
@@ -27,27 +28,8 @@ function downloadImg(url ="https://www.google.com/images/srpr/logo3w.png") {
     });
 }
 
-function googleApi() {
-    const { google } = require('googleapis');
-    const customsearch = google.customsearch('v1');
 
-    // Ex: node customsearch.js
-    //      "Google Node.js"
-    //      "API KEY"
-    //      "CUSTOM ENGINE ID"
-
-    async function runSample(options) {
-        console.log(options);
-        const res = await customsearch.cse.list({
-            cx: options.cx,
-            q: options.q,
-            auth: options.apiKey,
-            searchType: "image"
-        });
-        console.log(res.data.url);
-        return res.data;
-    }
-
+function getImgfromNet() {
     if (module === require.main) {
         // You can get a custom search engine id at
         // https://www.google.com/cse/create/new
@@ -56,12 +38,20 @@ function googleApi() {
             apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
             cx: "010789280150233095101:gry9brqojdc"
         };
-        runSample(options).catch(console.error);
+        imgRequest(options).catch(console.error);
     }
+}
 
-    module.exports = {
-        runSample
-    };
+async function imgRequest(options) {
+    console.log(options);
+    const res = await customsearch.cse.list({
+        cx: options.cx,
+        q: options.q,
+        auth: options.apiKey,
+        searchType: "image"
+    });
+    console.log(res.data.items[0].link);
+    return res.data;
 }
 
 function writeToFile(data = "no text provided") {
@@ -91,7 +81,7 @@ function ipc(imgArray) {
         console.log(arg) // prints "ping"
 
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
-        if (imgNumber+1 == imgArray.length) {
+        if (imgNumber + 1 == imgArray.length) {
             imgNumber = 0;
         }
         else {
@@ -119,7 +109,7 @@ function showWindow() {
 app.on('ready', function () {
     showWindow();
     //getting images array
-    
+
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
@@ -129,6 +119,6 @@ app.on('ready', function () {
             ipc(data);
         }
     });
-    
-    googleApi();
+
+    getImgfromNet();
 });
