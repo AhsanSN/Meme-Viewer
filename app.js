@@ -29,19 +29,16 @@ function downloadGoogleArray(googleArray) {
 function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
+            nImages = nImages + 1;
             var filename = `./images/m (${nImages}).png`;
-            console.log(filename);
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
+            console.log('added ' + filename);
+            writeToFile(filename);
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
     };
-    nImages = nImages + 1;
-    var imgName = `../images/m (${nImages}).png`;
-    console.log(imgName);
-    download(url, imgName, function () {
-        console.log('added ' + imgName);
-        writeToFile(imgName);
+    download(url, "random", function () {
     });
 }
 
@@ -134,7 +131,7 @@ app.on('ready', function () {
         } else {
             nImages = data.length;
             //downloadImg();
-            //ipc(data);
+            ipc(data);
         }
     });
     
