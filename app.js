@@ -4,30 +4,41 @@ const path = require('path')
 const fs = require('fs');
 const { google } = require('googleapis');
 const customsearch = google.customsearch('v1');
+const request = require('request');
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
 var nImages;
 
-function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
-    const request = require('request');
+function getImgFromArray(dataArray) {
+    var imgArrayDownloaded = []
+    for (let i = 0; i < dataArray.length; i++) {
+        imgArrayDownloaded.push(dataArray.items[i].link);
+    }
+    return imgArrayDownloaded;
+}
 
+function downloadGoogleArray(googleArray) {
+    for (let i = 0; i < googleArray.length; i++) {
+        downloadImg(googleArray[i]);
+    }
+}
+
+function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
-
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
     };
     nImages = nImages + 1;
     var imgName = `../images/m (${nImages}).png`;
     download(url, imgName, function () {
-        console.log('done');
+        console.log('added ' + imgName);
         writeToFile(imgName);
     });
 }
-
 
 function getImgfromNet() {
     if (module === require.main) {
@@ -43,14 +54,15 @@ function getImgfromNet() {
 }
 
 async function imgRequest(options) {
-    console.log(options);
     const res = await customsearch.cse.list({
         cx: options.cx,
         q: options.q,
         auth: options.apiKey,
         searchType: "image"
     });
-    console.log(res.data.items[0].link);
+    var googleArray = getImgFromArray(res.data);
+    downloadGoogleArray(googleArray);
+    //console.log(res.data.items[0].link);
     return res.data;
 }
 
@@ -109,7 +121,6 @@ function showWindow() {
 app.on('ready', function () {
     showWindow();
     //getting images array
-
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
@@ -119,6 +130,5 @@ app.on('ready', function () {
             ipc(data);
         }
     });
-
     getImgfromNet();
 });
