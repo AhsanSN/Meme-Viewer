@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--height: 511.3px;-->
     <style>
-        body{
-            margin:0px;
+        body {
+            margin: 0px;
         }
-        img{
-            height: 511.3px;
+
+        img {
+            height: 501.3px;
             width: 784px;
             align-content: center;
         }
+
         ul {
             list-style-type: none;
             margin: 0;
@@ -71,6 +74,7 @@
         <li><a href="about.html">About</a></li>
     </ul>
     <img id="image" src="../images/m1.png" />
+    <p id="text"></p>
 
 </body>
 </html>
@@ -106,9 +110,10 @@
     const { ipcRenderer } = require('electron');
 
     ipcRenderer.on('asynchronous-reply', (event, arg) => {
-        console.log(arg) // prints "pong"
+        console.log(arg) // prints "pong
+        document.getElementById('text').innerHTML = arg;
         document.getElementById('image').src = arg;
     })
-    timer(2000);
+    timer(500);
     
 </script>

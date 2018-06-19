@@ -34,7 +34,7 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
             console.log('added ' + filename);
-            writeToFile(filename);
+            writeToFile("."+filename);
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
     };
@@ -93,7 +93,7 @@ function ipc(imgArray) {
     var imgNumber = 0;
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
-        console.log(arg) // prints "ping"
+       // console.log(arg) // prints "ping"
 
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
         if (imgNumber + 1 == imgArray.length) {
