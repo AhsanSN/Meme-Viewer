@@ -8,12 +8,14 @@ const request = require('request');
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
-var nImages;
+var nImages=0;
 
 function getImgFromArray(dataArray) {
+    console.log(dataArray.items.length);
     var imgArrayDownloaded = []
-    for (let i = 0; i < dataArray.length; i++) {
+    for (var i = 0; i < dataArray.items.length; i++) {
         imgArrayDownloaded.push(dataArray.items[i].link);
+        //console.log(dataArray.items[i].link);
     }
     return imgArrayDownloaded;
 }
@@ -27,6 +29,8 @@ function downloadGoogleArray(googleArray) {
 function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
+            var filename = `./images/m (${nImages}).png`;
+            console.log(filename);
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
@@ -34,6 +38,7 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     };
     nImages = nImages + 1;
     var imgName = `../images/m (${nImages}).png`;
+    console.log(imgName);
     download(url, imgName, function () {
         console.log('added ' + imgName);
         writeToFile(imgName);
@@ -81,6 +86,7 @@ function readFile(callback) {
             callback(error, null);
         else {
             arrayImg = data.toString().split("\n");
+            nImages = arrayImg.length;
             callback(null, arrayImg);
         }
     });
@@ -121,14 +127,16 @@ function showWindow() {
 app.on('ready', function () {
     showWindow();
     //getting images array
+    
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
         } else {
             nImages = data.length;
             //downloadImg();
-            ipc(data);
+            //ipc(data);
         }
     });
+    
     getImgfromNet();
 });
