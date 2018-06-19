@@ -41,9 +41,10 @@ function googleApi() {
         const res = await customsearch.cse.list({
             cx: options.cx,
             q: options.q,
-            auth: options.apiKey
+            auth: options.apiKey,
+            searchType: "image"
         });
-        console.log(res.data);
+        console.log(res.data.url);
         return res.data;
     }
 
@@ -51,9 +52,9 @@ function googleApi() {
         // You can get a custom search engine id at
         // https://www.google.com/cse/create/new
         const options = {
-            q: process.argv[2],
-            apiKey: process.argv[3],
-            cx: process.argv[4]
+            q: "plane",
+            apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
+            cx: "010789280150233095101:gry9brqojdc"
         };
         runSample(options).catch(console.error);
     }
@@ -114,18 +115,20 @@ function showWindow() {
     //writeToFile();
 }
 
-
 //main
 app.on('ready', function () {
     showWindow();
     //getting images array
+    
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
         } else {
             nImages = data.length;
-            downloadImg();
+            //downloadImg();
             ipc(data);
         }
     });
+    
+    googleApi();
 });
