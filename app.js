@@ -48,10 +48,9 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arra
 function getImgfromNet(arrayImg) {
     if (module === require.main) {
         const options = {
-            q: "epic memes",
+            q: "memes",
             apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
             cx: "010789280150233095101:gry9brqojdc",
-            sort: "hfc"
         };
         imgRequest(options, arrayImg).catch(console.error);
     }
@@ -62,9 +61,11 @@ async function imgRequest(options, arrayImg) {
         cx: options.cx,
         q: options.q,
         auth: options.apiKey,
-        searchType: "image"
+        searchType: "image",
+        start: googleIndex
     });
     var googleArray = getImgFromArray(res.data);
+    googleIndex = googleIndex + 10;
     downloadGoogleArray(googleArray, arrayImg);
     //console.log(res.data.items[0].link);
     return res.data;
@@ -96,8 +97,8 @@ function ipc(imgArray) {
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
        // console.log(arg) // prints "ping"
-        //getImgfromNet(imgArray);
-        googleIndex = imgArray.length % 10;
+        getImgfromNet(imgArray);
+        console.log("-------------------------------------------------------" + googleIndex)
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
         if (imgNumber + 1 == imgArray.length) {
             imgNumber = 0;
@@ -126,9 +127,7 @@ function showWindow() {
 //main
 app.on('ready', function () {
     showWindow();
-    //getting images array
-    console.log(19/10)
-    
+    //getting images array  
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
