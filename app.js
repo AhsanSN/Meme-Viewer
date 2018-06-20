@@ -5,11 +5,12 @@ const fs = require('fs');
 const { google } = require('googleapis');
 const customsearch = google.customsearch('v1');
 const request = require('request');
+var stream = fs.createWriteStream("imagesFile.txt", { flags: 'a' });
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
 var nImages = 0;
-var googleIndex = 0;
+var googleIndex = 1;
 
 function getImgFromArray(dataArray) {
     console.log(dataArray.items.length);
@@ -72,11 +73,8 @@ async function imgRequest(options, arrayImg) {
 }
 
 function writeToFile(data = "no text provided") {
-    data = data + '\n';
-    fs.appendFile('imagesFile.txt', data, function (err, data) {
-        if (err) console.log(err);
-        console.log("Address added");
-    });
+    stream.write(data + '\n');
+    console.log("Address added");
 }
 
 function readFile(callback) {
@@ -127,7 +125,6 @@ function showWindow() {
 //main
 app.on('ready', function () {
     showWindow();
-    //getting images array  
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
@@ -136,7 +133,5 @@ app.on('ready', function () {
             getImgfromNet(data);
             ipc(data);
         }
-    });
-    
-   
+    });  
 });
