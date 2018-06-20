@@ -8,7 +8,8 @@ const request = require('request');
 
 const { app, BrowserWindow } = electron;
 let mainWindow;
-var nImages=0;
+var nImages = 0;
+var googleIndex = 0;
 
 function getImgFromArray(dataArray) {
     console.log(dataArray.items.length);
@@ -20,13 +21,13 @@ function getImgFromArray(dataArray) {
     return imgArrayDownloaded;
 }
 
-function downloadGoogleArray(googleArray) {
+function downloadGoogleArray(googleArray, arrayImg) {
     for (let i = 0; i < googleArray.length; i++) {
-        downloadImg(googleArray[i]);
+        downloadImg(googleArray[i], arrayImg);
     }
 }
 
-function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
+function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arrayImg) {
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             nImages = nImages + 1;
@@ -34,7 +35,9 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
             console.log('added ' + filename);
-            writeToFile("."+filename);
+            writeToFile("." + filename);
+            nImages = nImages + 1;
+            arrayImg.push("." + filename);
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
     };
@@ -42,20 +45,19 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png") {
     });
 }
 
-function getImgfromNet() {
+function getImgfromNet(arrayImg) {
     if (module === require.main) {
-        // You can get a custom search engine id at
-        // https://www.google.com/cse/create/new
         const options = {
-            q: "plane",
+            q: "epic memes",
             apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
-            cx: "010789280150233095101:gry9brqojdc"
+            cx: "010789280150233095101:gry9brqojdc",
+            sort: "hfc"
         };
-        imgRequest(options).catch(console.error);
+        imgRequest(options, arrayImg).catch(console.error);
     }
 }
 
-async function imgRequest(options) {
+async function imgRequest(options, arrayImg) {
     const res = await customsearch.cse.list({
         cx: options.cx,
         q: options.q,
@@ -63,7 +65,7 @@ async function imgRequest(options) {
         searchType: "image"
     });
     var googleArray = getImgFromArray(res.data);
-    downloadGoogleArray(googleArray);
+    downloadGoogleArray(googleArray, arrayImg);
     //console.log(res.data.items[0].link);
     return res.data;
 }
@@ -94,7 +96,8 @@ function ipc(imgArray) {
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
        // console.log(arg) // prints "ping"
-
+        //getImgfromNet(imgArray);
+        googleIndex = imgArray.length % 10;
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
         if (imgNumber + 1 == imgArray.length) {
             imgNumber = 0;
@@ -124,16 +127,17 @@ function showWindow() {
 app.on('ready', function () {
     showWindow();
     //getting images array
+    console.log(19/10)
     
     var imgArray = readFile(function (err, data) {
         if (err) {
             console.log("ERROR : ", err);
         } else {
             nImages = data.length;
-            //downloadImg();
+            getImgfromNet(data);
             ipc(data);
         }
     });
     
-    getImgfromNet();
+   
 });
