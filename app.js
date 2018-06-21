@@ -19,7 +19,6 @@ function getImgFromArray(dataArray)
     var imgArrayDownloaded = []
     for (var i = 0; i < dataArray.items.length; i++) {
         imgArrayDownloaded.push(dataArray.items[i].link);
-        //console.log(dataArray.items[i].link);
     }
     return imgArrayDownloaded;
 }
@@ -38,17 +37,20 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arra
 
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
-            nImages = nImages + 1;
-            var filename = `./images/m (${nImages}).png`;
-            console.log('content-type:', res.headers['content-type']);
-            console.log('content-length:', res.headers['content-length']);
-            console.log('added ' + filename);
-            writeToFile("." + filename);
 
-            nImages = nImages + 1;
-            arrayImg.push("." + filename);
+            if (!err) {
+                nImages = nImages + 1;
+                var filename = `./images/m (${nImages}).png`;
+                console.log('content-type:', res.headers['content-type']);
+                console.log('content-length:', res.headers['content-length']);
+                console.log('added ' + filename);
+                writeToFile("." + filename);
 
-            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+                nImages = nImages + 1;
+                arrayImg.push("." + filename);
+
+                request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+            }
         });
     };
 
@@ -167,7 +169,6 @@ app.on('ready', function () {
             console.log("ERROR : ", err);
         } else {
             nImages = data.length;
-            //getImgfromNet(data);
             ipc(data);
         }
 
