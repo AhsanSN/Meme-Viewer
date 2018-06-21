@@ -1,26 +1,27 @@
 {
-  "name": "shopping-cart-desktop-app",
-  "version": "1.0.0",
-  "description": "A meme viewing desktop app",
-  "main": "app.js",
-  "scripts": {
-    "start": "Electron  ."
-  },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "Syed Ahsan Ahmed",
-  "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "^2.0.0"
-  },
-  "dependencies": {
-    "google-images": "^2.1.0",
-    "googleapis": "^1.0.0",
-    "sqlite3": "^3.1.8"
-  }
+    "name": "shopping-cart-desktop-app",
+    "version": "1.0.0",
+    "description": "A meme viewing desktop app",
+    "main": "app.js",
+    "scripts": {
+        "start": "Electron  .",
+        "package-win": "electron-packager . shopping-cart-desktop-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"MEME Viewer\""
+    },
+    "keywords": [
+        "Electron",
+        "quick",
+        "start",
+        "tutorial",
+        "demo"
+    ],
+    "author": "Syed Ahsan Ahmed",
+    "license": "CC0-1.0",
+    "devDependencies": {
+        "electron": "^2.0.0"
+    },
+    "dependencies": {
+        "google-images": "^2.1.0",
+        "googleapis": "^1.0.0",
+        "sqlite3": "^3.1.8"
+    }
 }
