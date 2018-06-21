@@ -38,17 +38,19 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arra
 
     var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
-            nImages = nImages + 1;
-            var filename = `./images/m (${nImages}).png`;
-            console.log('content-type:', res.headers['content-type']);
-            console.log('content-length:', res.headers['content-length']);
-            console.log('added ' + filename);
-            writeToFile("." + filename);
+            if (!err) {
+                nImages = nImages + 1;
+                var filename = `./images/m (${nImages}).png`;
+                console.log('content-type:', res.headers['content-type']);
+                console.log('content-length:', res.headers['content-length']);
+                console.log('added ' + filename);
+                writeToFile("." + filename);
 
-            nImages = nImages + 1;
-            arrayImg.push("." + filename);
+                nImages = nImages + 1;
+                arrayImg.push("." + filename);
 
-            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+                request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+            }
         });
     };
 
