@@ -124,8 +124,7 @@ function ipc(imgArray)
 
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
-       // console.log(arg) // prints "ping"
-        getImgfromNet(imgArray);
+        //getImgfromNet(imgArray);
         console.log("-------------------------------------------------------" + googleIndex)
 
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
