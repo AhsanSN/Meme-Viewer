@@ -54,7 +54,7 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arra
         });
     };
 
-    download(url, "random", function () {
+    download(url, "none", function () {
     });
 
 }
@@ -124,7 +124,6 @@ function ipc(imgArray)
 
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
-       // console.log(arg) // prints "ping"
         getImgfromNet(imgArray);
         console.log("-------------------------------------------------------" + googleIndex)
 
@@ -154,7 +153,6 @@ function showWindow() {
         slashes: true
     }));
 
-    //writeToFile();
 }
 
 //main
