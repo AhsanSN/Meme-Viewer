@@ -71,7 +71,7 @@
 
     <ul>
         <li onclick="stopSS();"><a id="pause" href="#">Pause</a></li>
-        <li><a href="about.html">About</a></li>
+        <li onclick="stopSS();"><a href="about.html">About</a></li>
     </ul>
     <img id="image" src="../images/m1.png" />
     <p id="text"></p>
@@ -79,41 +79,6 @@
 </body>
 </html>
 
-
-<script>
-    slideSSbool = true;
-    function stopSS() {
-        if (slideSSbool == true) {
-            slideSSbool = false;
-            document.getElementById("pause").innerHTML = "Resume";
-        }
-        else {
-            slideSSbool = true;
-            document.getElementById("pause").innerHTML = "Pause";
-        }
-    }
-
-    function timer(seconds) {
-        var i = 0;
-        while (i<100000) {
-            (function (i) {
-                setTimeout(function () {
-                    if (slideSSbool == true) {
-                        ipcRenderer.send('asynchronous-message', 'ping');
-                    }
-                }, seconds * i)
-            })(i++)
-        }
-    }
-
-    const electron = require('electron');
-    const { ipcRenderer } = require('electron');
-
-    ipcRenderer.on('asynchronous-reply', (event, arg) => {
-        console.log(arg) // prints "pong
-        document.getElementById('text').innerHTML = arg;
-        document.getElementById('image').src = arg;
-    })
-    timer(500);
+<script src="./js/home.js"></script>
     
-</script>
+    
