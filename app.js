@@ -64,7 +64,7 @@ function getImgfromNet(arrayImg)
 
     if (module === require.main) {
         const options = {
-            q: "memes gif",
+            q: "funny memes",
             apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
             cx: "010789280150233095101:gry9brqojdc",
         };
@@ -125,7 +125,7 @@ function ipc(imgArray)
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
         // console.log(arg) // prints "ping"
-        if (googleIndex < 120) {
+        if (googleIndex < 130) {
             getImgfromNet(imgArray);
         }
         console.log("-------------------------------------------------------" + googleIndex)
