@@ -31,4 +31,4 @@ ipcRenderer.on('asynchronous-reply', (event, arg) => {
     document.getElementById('text').innerHTML = arg;
     document.getElementById('image').src = arg;
 })
-timer(2000);
+timer(4000);

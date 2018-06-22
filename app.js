@@ -40,7 +40,7 @@ function downloadImg(url = "https://www.google.com/images/srpr/logo3w.png", arra
 
             if (!err) {
                 nImages = nImages + 1;
-                var filename = `./images/m (${nImages}).png`;
+                var filename = `./images/m (${nImages}).gif`;
                 console.log('content-type:', res.headers['content-type']);
                 console.log('content-length:', res.headers['content-length']);
                 console.log('added ' + filename);
@@ -64,7 +64,7 @@ function getImgfromNet(arrayImg)
 
     if (module === require.main) {
         const options = {
-            q: "memes",
+            q: "memes gif",
             apiKey: "AIzaSyAwUpzM9DJr58Y3y_8TMnMkfwCBtCEGcTs",
             cx: "010789280150233095101:gry9brqojdc",
         };
@@ -124,8 +124,10 @@ function ipc(imgArray)
 
     const { ipcMain } = require('electron')
     ipcMain.on('asynchronous-message', (event, arg) => {
-       // console.log(arg) // prints "ping"
-        getImgfromNet(imgArray);
+        // console.log(arg) // prints "ping"
+        if (googleIndex < 120) {
+            getImgfromNet(imgArray);
+        }
         console.log("-------------------------------------------------------" + googleIndex)
 
         event.sender.send('asynchronous-reply', imgArray[imgNumber])
