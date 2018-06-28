@@ -38,6 +38,7 @@ It also contains the options to pause and resume the slideshow.
 ## Installation
 
 1) Open nodejs CMD
+2) <code>npm install googleapis -g</code>
 2) <code>npm start</code>
 
 
